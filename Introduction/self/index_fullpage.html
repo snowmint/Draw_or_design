@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<title>Introduction</title>
+	<meta name="author" content="Alvaro Trigo Lopez" />
+	<meta name="description" content="fullPage full-screen navigation and sections control menu." />
+	<meta name="keywords" content="fullpage,jquery,demo,scrollbar,scroll,bar,fullscreen,navigation,control arrows, dots" />
+	<meta name="Resource-type" content="Document" />
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<script src="https://cdn.rawgit.com/nnattawat/flip/master/dist/jquery.flip.min.js"></script>
+
+	<link rel="stylesheet" type="text/css" href="../dist/fullpage.css" />
+	<style>
+		/* Style for our header texts
+	* --------------------------------------- */
+		h1 {
+			font-size: 5em;
+			font-family: arial, helvetica;
+			color: #fff;
+			margin: 0;
+		}
+
+		.intro p {
+			color: #fff;
+		}
+
+		/* Centered texts in each section
+	* --------------------------------------- */
+		.section {
+			text-align: center;
+		}
+
+
+		/* Bottom menu
+	* --------------------------------------- */
+		#infoMenu li a {
+			color: #fff;
+		}
+
+		a,
+		a:link,
+		a:visited {
+			color: #445470;
+			text-decoration: none;
+		}
+
+		a:hover {
+			color: #7a5300;
+			text-decoration: none;
+		}
+
+		a:active {
+			color: #CFBFEF;
+			text-decoration: none;
+		}
+
+
+		table {
+			border-style: none;
+			border-radius: 90px;
+		}
+
+		table a {
+			display: block;
+			text-decoration: none;
+		}
+
+		table td:hover {
+			background-color: #FFFFFF;
+			color: #ae93ba;
+			box-shadow: 3px 3px 15px #98a3b8;
+		}
+
+		td {
+			margin-right: 10px;
+			padding: 10px 14px;
+			border-radius: 50px;
+			background-color: #ffffff99;
+			color: #999999;
+			box-shadow: 3px 3px 15px #e3e3e3;
+		}
+
+		hr.style-two {
+			border: 0;
+			background-image: linear-gradient(to right, #ffdddd, #9cbee5, #ffdddd);
+		}
+
+		/*phtographic presentation*/
+		#diamond {
+			width: 500px;
+			height: 500px;
+			background: #9b794f;
+			opacity: 0.6;
+			/* Rotate */
+			transform: rotate(-45deg);
+			/* Rotate Origin */
+			transform-origin: 0 100%;
+			margin-left: 50%;
+			margin-top: -70px;
+			float: inherit;
+		}
+
+		.bg_photo {
+			position: fixed;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			right: 0;
+			z-index: -1;
+		}
+
+		.bg_photo .img_photo {
+			min-height: 100%;
+			width: 100%;
+		}
+
+		.mySlides {
+			display: none;
+		}
+
+		/*Flip card*/
+		.example {
+			position: relative;
+		}
+
+		.flipBlock {
+			height: 220px;
+			width: 490px;
+			position: absolute;
+			top: 50%;
+			left: 25%;
+
+		}
+
+		.flip-container {
+			height: 200px;
+			width: 150px;
+			perspective: 600;
+			position: relative;
+			display: inline;
+		}
+
+		.flipper {
+			height: 200px;
+			width: 150px;
+			position: absolute;
+			transform-style: preserve-3d;
+			transition: transform 1s;
+		}
+
+		.back,
+		.front {
+			height: 200px;
+			width: 150px;
+			display: block;
+			position: absolute;
+			text-align: center;
+			line-height: 100px;
+			backface-visibility: hidden;
+		}
+
+		.front {
+			/*background-color: #EED3D3;*/
+		}
+
+		.back {
+			/*background-color: #E4B9E2;*/
+			transform: rotateY(180deg);
+		}
+
+		.flipped {
+			animation: spin180 1s 1 forwards;
+		}
+
+		.second-flip {
+			animation: spin360 1s 1 forwards;
+		}
+
+		@keyframes spin180 {
+			0% {
+				transform: rotateY(0deg);
+			}
+
+			100% {
+				transform: rotateY(180deg);
+			}
+		}
+
+		@keyframes spin360 {
+			0% {
+				transform: rotateY(180deg);
+			}
+
+			100% {
+				transform: rotateY(360deg);
+			}
+		}
+
+	</style>
+
+	<!--[if IE]>
+		<script type="text/javascript">
+			 var console = { log: function() {} };
+		</script>
+	<![endif]-->
+</head>
+<script>
+	const foods = ["Cucina Felice 費利榭", "The Ukai Taipei", "雅室牛排", "Toh-A 桌藏餐廳", "LeTAO小樽洋菓子舖", "隨意鳥地方", "Smith & Wollensk", "新葡苑", "Don-tei 壽喜燒", "山花日本料理", "米匠", "教父牛排", "明水三井", "Heritage Bakery & Cafe", "上引水產", "探索廚房", "Irodori 彩日本料理", "Garden Kitchen", "陽明春天", "白房子", "法國保羅麵包", "BELLINI CAFFE", "荷風中國菜"];
+	const foods_link = ["https://g.page/cucinafelice2015?share", "https://goo.gl/maps/urP1c8wHLdbuDpnY9", "https://goo.gl/maps/VvzeJhXF1bjSgjRr9", "https://goo.gl/maps/3UvPDrzV94dLag4z9", "https://goo.gl/maps/D3LhGcAjWGrK9GzE6", "https://goo.gl/maps/pd2vkevRfGRZDiAu6", "https://g.page/smithandwollenskytaipei?share", "https://goo.gl/maps/JnZH8jVFdxHk5FuQA", "https://goo.gl/maps/YgBu39x6bQYt3S1F9", "https://g.page/sanka311?share", "https://goo.gl/maps/CHh1g5kBHQVj4KQP8", "https://goo.gl/maps/8GmyRvrrhPnm6K8P8", "https://goo.gl/maps/6WJvAZqvA9L6oPbC6", "https://g.page/heritagetaipei?share", "https://goo.gl/maps/aU5r5vH3WMTnA1A98", "https://goo.gl/maps/54CzNkBChV1F67fKA", "https://g.page/Irodori-Taipei?share", "https://goo.gl/maps/UsP4rg3zomfArQtu9", "https://goo.gl/maps/Dp5YsyxiRyQyX1UQ7", "https://goo.gl/maps/16eyvz3mVP8UpKon6", "https://goo.gl/maps/SGDWZMQmUUqcU7AQ7", "https://goo.gl/maps/tXUiojvMJ3ABCpTU8", "https://goo.gl/maps/TrXn73XSSL7GKKKP6"];
+</script>
+
+<body>
+
+	<div id="fullpage">
+		<div class="section " id="section0">
+			<div class="intro">
+				<hr class="style-two" size="6px" align="center" width="80%" color="#9cbee5">
+				<p style="text-align: center;font-size: 20px;color: #998db9;">THIS SITE DISPLAY THE PART OF DESIGN WORKS BY SNOWMINT WEI.</p>
+				<p style="text-align: center;font-size: 15px;color: #8d9cb9;">除了整頁式滾動功能 by Alvaro Trigo. ，其餘 by <font style="font-size:20px;">Snowmint Wei.</font>
+				</p>
+				<p style="text-align: center;font-size: 15px;color: #b98d97;">因時間關係沒加 RWD，建議以 PC 瀏覽，敬請見諒 QAQ</p>
+				<hr class="style-two" size="6px" align="center" width="80%" color="#9cbee5">
+			</div>
+		</div>
+		<div class="section" id="section1" style="background: rgb(180,220,230);
+background: linear-gradient(280deg, rgba(180,220,230,1) 0%, rgb(247, 213, 213) 99%);">
+			<div class="intro">
+				<hr size="2px" align="center" width="30%" color="#ffffff">
+				<p style="text-align: center;font-size: 18px;color: #ffffff;">LOGO DESIGN FOR 柯霏時尚 </p>
+				<hr size="3px" align="center" width="30%" color="#ffffff">
+				<div align="center">
+					<table width="600" height="300" cellspacing="30px">
+						<tr>
+							<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./KF_logo/%E7%99%BD%E5%BA%95%E9%BB%91%E5%AD%97.png" width="180" height="180" style="border-radius: 30pt" /><br>白底黑字</td>
+							<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./KF_logo/%E7%99%BD%E5%BA%95%E9%BB%91%E5%AD%97+%E9%99%B0%E5%BD%B1.png" width="180" height="180" style="border-radius: 30pt" /><br>白底黑字+陰影</td>
+							<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./KF_logo/%E7%99%BD%E5%BA%95%E7%B4%85%E8%97%8D%E6%BC%B8%E5%B1%A4.png" width="180" height="180" style="border-radius: 30pt" /><br>白底紅藍漸層</td>
+						</tr>
+					</table>
+					<table width="600" height="300" cellspacing="30px">
+						<tr>
+							<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./KF_logo/%E9%BB%91%E5%BA%95%E7%99%BD%E5%AD%97.png" width="180" height="180" style="border-radius: 30pt" /><br>黑底白字</td>
+							<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./KF_logo/%E9%BB%91%E5%BA%95%E7%99%BD%E5%AD%97+%E9%99%B0%E5%BD%B1.png" width="180" height="180" style="border-radius: 30pt" /><br>黑底白字+陰影</td>
+							<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./KF_logo/%E9%BB%91%E5%BA%95%E9%BB%83%E7%B2%89%E6%BC%B8%E5%B1%A4.png" width="180" height="180" style="border-radius: 30pt" /><br>黑底黃粉漸層</td>
+						</tr>
+					</table>
+				</div>
+				<div align="right">
+					<b style="color:#676767; font-size: 15px; font-family:monospace; text-align:right; margin-right: 5%">( Tool: Inkscape <img src="1024px-Inkscape_Logo.svg.png" width="20" height="20">)</b>
+				</div>
+			</div>
+		</div>
+		<div class="section" id="section2" style="background: rgb(188,229,236);
+background: linear-gradient(280deg, rgba(188,229,236,1) 0%, rgb(170, 215, 239) 50%, rgb(173, 196, 222) 99%);">
+			<div class="intro">
+				<div class="slide" id="slide1">
+					<hr size="2px" align="center" width="50%" color="#ffffff">
+					<p style="text-align: center;font-size: 18px;color: #ffffff;">STICKER DESIGN FOR TELEGRAM <a href="https://t.me/addstickers/WRdongdong" style="color: #e37a7a">"CLICK ME TO ADD STICKER"</a> ( Tool: GIMP ) </p>
+					<hr size="3px" align="center" width="50%" color="#ffffff">
+					<div align="center">
+						<table width="600" height="300" cellspacing="30px">
+							<tr>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_amazing.png" width="180" height="180" style="border-radius: 30pt" /><br>red_amazing</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_Chrismas.png" width="180" height="180" style="border-radius: 30pt" /><br>red_Chrismas</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_happyBitthday.png" width="180" height="180" style="border-radius: 30pt" /><br>red_happyBitthday</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_happyNewYear.png" width="180" height="180" style="border-radius: 30pt" /><br>red_happyNewYear</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_hehe.png" width="180" height="180" style="border-radius: 30pt" /><br>red_hehe</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_hungry.png" width="180" height="180" style="border-radius: 30pt" /><br>red_hungry</td>
+							</tr>
+						</table>
+						<table width="600" height="300" cellspacing="30px">
+							<tr>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_ignore.png" width="180" height="180" style="border-radius: 30pt" /><br>red_ignore</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_kiss.png" width="180" height="180" style="border-radius: 30pt" /><br>red_kiss</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_nanatsu.png" width="180" height="180" style="border-radius: 30pt" /><br>red_nanatsu</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_night.png" width="180" height="180" style="border-radius: 30pt" /><br>red_night</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_no.png" width="180" height="180" style="border-radius: 30pt" /><br>red_no</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_play.png" width="180" height="180" style="border-radius: 30pt" /><br>red_play</td>
+							</tr>
+						</table>
+					</div>
+					<div align="right">
+						<b style="color:#676767; font-size: 15px; font-family:monospace; text-align:right; margin-right: 5%">( Tool: GIMP <img src="gimp_logo.png" width="20" height="20">)</b>
+					</div>
+					<div class="slide" id="slide2">
+						<hr size="2px" align="center" width="50%" color="#ffffff">
+						<p style="text-align: center;font-size: 18px;color: #ffffff;">STICKER DESIGN FOR TELEGRAM <a href="https://t.me/addstickers/WRdongdong" style="color: #e37a7a">"CLICK ME TO ADD STICKER"</a> ( Tool: GIMP ) </p>
+						<hr size="3px" align="center" width="50%" color="#ffffff">
+						<table width="600" height="300" cellspacing="30px" style="padding-left: 30px">
+							<tr>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_rice.png" width="180" height="180" style="border-radius: 30pt" /><br>red_rice</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_sorry.png" width="180" height="180" style="border-radius: 30pt" /><br>red_sorry</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_think.png" width="180" height="180" style="border-radius: 30pt" /><br>red_think</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/red_waitMe.png" width="180" height="180" style="border-radius: 30pt" /><br>red_waitMe</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_angry.png" width="180" height="180" style="border-radius: 30pt" /><br>white_angry</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_asa.png" width="180" height="180" style="border-radius: 30pt" /><br>white_asa</td>
+							</tr>
+						</table>
+						<table width="600" height="300" cellspacing="30px" style="padding-left: 30px">
+							<tr>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_beauty.png" width="180" height="180" style="border-radius: 30pt" /><br>white_beauty</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_Chrismas.png" width="180" height="180" style="border-radius: 30pt" /><br>red_sorry</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_cute.png" width="180" height="180" style="border-radius: 30pt" /><br>white_cute</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_dekita.png" width="180" height="180" style="border-radius: 30pt" /><br>white_dekita</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_fight.png" width="180" height="180" style="border-radius: 30pt" /><br>white_fight</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_hahaha.png" width="180" height="180" style="border-radius: 30pt" /><br>white_hahaha</td>
+							</tr>
+						</table>
+						<div align="right">
+							<b style="color:#676767; font-size: 15px; font-family:monospace; text-align:right; margin-right: 5%">( Tool: GIMP <img src="gimp_logo.png" width="20" height="20">)</b>
+						</div>
+					</div>
+					<div class="slide" id="slide3">
+						<hr size="2px" align="center" width="50%" color="#ffffff">
+						<p style="text-align: center;font-size: 18px;color: #ffffff;">STICKER DESIGN FOR TELEGRAM <a href="https://t.me/addstickers/WRdongdong" style="color: #e37a7a">"CLICK ME TO ADD STICKER"</a> ( Tool: GIMP ) </p>
+						<hr size="3px" align="center" width="50%" color="#ffffff">
+						<table width="600" height="300" cellspacing="30px" style="padding-left: 30px">
+							<tr>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_happy1.png" width="180" height="180" style="border-radius: 30pt" /><br>white_happy1</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_helpMe.png" width="180" height="180" style="border-radius: 30pt" /><br>white_helpMe</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_question.png" width="180" height="180" style="border-radius: 30pt" /><br>white_question</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_sad.png" width="180" height="180" style="border-radius: 30pt" /><br>white_sad</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_scaryOrCry.png" width="180" height="180" style="border-radius: 30pt" /><br>white_scaryOrCry</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_takeABreak.png" width="180" height="180" style="border-radius: 30pt" /><br>white_takeABreak</td>
+							</tr>
+						</table>
+						<table width="600" height="300" cellspacing="30px" style="padding-left: 30px">
+							<tr>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_um.png" width="180" height="180" style="border-radius: 30pt" /><br>white_um</td>
+								<td rowspan="2" style="text-align:center;padding-bottom: 10px;"><img src="./Red_and_White/white_yes.png" width="180" height="180" style="border-radius: 30pt" /><br>white_yes</td>
+							</tr>
+						</table>
+						<div align="right">
+							<b style="color:#676767; font-size: 15px; font-family:monospace; text-align:right; margin-right: 5%">( Tool: GIMP <img src="gimp_logo.png" width="20" height="20">)</b>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="section" id="section2">
+			<div class="intro">
+				<div id="diamond"></div>
+				<div style="position: relative;text-align: center;font-size: 60pt;color: aliceblue;font-weight: 200; margin-top: -410px;">
+					Photography!
+					<div style="font-size: 15pt;margin-top: -3px;">Wait! Don't scrolling so fast! look at the background!</div>
+					<div style="font-size: 15pt;margin-top: 3px;">All take by Snowmint Wei.</div>
+					<div style="font-size: 15pt;margin-top: 0px;">等等！別急著往下滑！</div>
+				</div>
+				<div class="bg_photo" id="slideshow">
+					<img class="mySlides" src="pic/2019pic (1).JPG" alt="1" style="width:100%;filter:blur(2px);filter: grayscale(60%);filter: sepia(50%);filter: brightness(50%);" />
+					<img class="mySlides" src="pic/2019pic (2).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (3).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (4).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (5).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (6).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (7).jpg" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (8).jpg" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (9).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (10).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (11).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (12).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (13).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (14).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (15).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (16).jpg" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (17).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (18).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (19).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (20).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (21).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (22).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (23).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (24).JPG" alt="2" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (25).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (26).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (27).JPG" alt="1" style="width:100%;" />
+					<img class="mySlides" src="pic/2019pic (28).JPG" alt="1" style="width:100%;" />
+				</div>
+			</div>
+		</div>
+		<div class="section" id="section3" style="background: -webkit-linear-gradient(to right, #185a9d, #7ec4d1);background: linear-gradient(to right, #185a9d, #7ec4d1);">
+			<div class="intro">
+				<div align="center" style="margin-top: -300px;">
+					<p style="font-size: 40px; color:#fff;">選擇一張牌來決定今天吃什麼吧！</p>
+					<p style="font-size: 20px; color:#ccc; margin-top: -20px;"> ( Cards draw by Snowmint Wei. )</p>
+				</div>
+				<div class="flipBlock exsample" style="top:35%;">
+					<div class="flip-container" id="flip1" style="left: 0%;">
+						<div class="flipper" id="flipper1">
+							<div class="face front">
+								<!--Front-->
+								<img src="pic/card/card_blue.png" alt="front" class="rotate90">
+							</div>
+							<div class="face back example">
+								<!--Back-->
+								<img src="pic/card/card_white.png" alt="back" class="rotate90">
+								<p id="random_food" style="font-size: 30px; color:#73d3f7; position: absolute;left: 83px;top: 50px;"></p>
+								<script>
+									var random = Math.floor(Math.random() * foods.length);
+									document.getElementById("random_food").innerHTML = "<a style='color:#73d3f7;' href='"+ foods_link[random]+ "'>" + random + "</a>";
+								</script>
+							</div>
+						</div>
+					</div>
+					<div class="flip-container" id="flip2" style="left: 60%">
+						<div class="flipper" id="flipper2">
+							<div class="face front">
+								<!--Front-->
+								<img src="pic/card/card_pink.png" alt="front">
+							</div>
+							<div class="face back example">
+								<!--Back-->
+								<img src="pic/card/card_white_pink.png" alt="back">
+								<p id="random_food2" style="font-size: 30px; color:#fabcbc; position: absolute;left: 83px;top: 50px;"></p>
+								<script>
+									var random = Math.floor(Math.random() * foods.length);
+									document.getElementById("random_food2").innerHTML = "<a style='color:#fabcbc;' href='"+ foods_link[random]+ "'>" + random + "</a>";
+								</script>
+							</div>
+						</div>
+					</div>
+					<div class="flip-container" id="flip3" style="left: 120%">
+						<div class="flipper" id="flipper3">
+							<div class="face front">
+								<!--Front-->
+								<img src="pic/card/card_blue.png" alt="front">
+							</div>
+							<div class="face back example">
+								<!--Back-->
+								<img src="pic/card/card_white.png" alt="back">
+								<p id="random_food3" style="font-size: 30px; color:#73d3f7; position: absolute;left: 83px;top: 50px;"></p>
+								<script>
+									var random = Math.floor(Math.random() * foods.length);
+									document.getElementById("random_food3").innerHTML = "<a style='color:#73d3f7;' href='"+ foods_link[random]+ "'>" + random + "</a>";
+								</script>
+							</div>
+						</div>
+					</div>
+					<button id="reset" style='position:absolute;top:160%; left:57.5%; display:none;width:220px;height:40px;outline:none;border:2px #000 none;color:#fff;background: rgba(0, 0, 0, 0);font-size:30px;'>再選一次</button>
+				</div>
+				<div align="right">
+					<b style="color:#676767; font-size: 15px; font-family:monospace; text-align:right; margin-right: 5%">( Tool: GIMP <img src="gimp_logo.png" width="20" height="20">)</b>
+				</div>
+			</div>
+		</div>
+		<div class="section" id="section4">
+			<div class="intro">
+				<!--h1>Great User Experience!</h1-->
+				<h1><a style="text-decoration: none;color:white;" href="https://snowmint.github.io/HSSB_Demo/test_building.html">專為 SITCON 2021 建立</a></h1>
+				<h2><a style="text-decoration: none;color:white;" href="https://snowmint.github.io/HSSB_Demo/test_building.html">ThreeJS Demo - 中研院社科館 3D Simple Demo</a></h2>
+				<h3><a style="text-decoration: none;color:white;" href="https://snowmint.github.io/HSSB_Demo/test_building.html">如有網頁上 3D 互動需求可以進行討論</a></h3>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="../dist/fullpage.js"></script>
+
+	<script type="text/javascript">
+		var myFullpage = new fullpage('#fullpage', {
+			anchors: ['firstPage', 'secondPage', '3rdPage'],
+			sectionsColor: ['white', 'black', '#a9bcdb', 'rgba(255, 255, 255, 0)', '#a9bedb', '#a9dbc6'],
+			scrollBar: true
+		});
+
+	</script>
+	<script>
+		var myIndex = 0;
+		carousel();
+
+		function carousel() {
+			var i;
+			var x = document.getElementsByClassName("mySlides");
+			for (i = 0; i < x.length; i++) {
+				x[i].style.display = "none";
+			}
+			myIndex++;
+			if (myIndex > x.length) {
+				myIndex = 1
+			}
+			x[myIndex - 1].style.display = "block";
+			setTimeout(carousel, 2000); // Change image every 2 seconds
+		}
+
+	</script>
+
+	<script>
+		$().ready(function() {
+			$("#flip1").click(function() {
+				console.log("click1");
+				$flipper = $("#flipper1");
+
+				$("#flip2").unbind('click');
+				$("#flip3").unbind('click');
+
+				$flipper.addClass("flipped");
+				$("#reset").show();
+			});
+			$("#flip2").click(function() {
+				console.log("click2");
+				$flipper = $("#flipper2");
+
+				$("#flip3").unbind('click');
+				$("#flip1").unbind('click');
+
+				$flipper.addClass("flipped");
+				$("#reset").show();
+			});
+			$("#flip3").click(function() {
+				console.log("click3");
+				$flipper = $("#flipper3");
+
+				$("#flip2").unbind('click');
+				$("#flip1").unbind('click');
+
+				$flipper.addClass("flipped");
+				$("#reset").show();
+			});
+			$("#reset").click(function() {
+				history.go(0);
+			});
+		});
+
+	</script>
+</body>
+
+</html>
